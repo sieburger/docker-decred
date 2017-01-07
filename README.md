@@ -30,7 +30,7 @@ contains all binaries in decred releases:
 
 -	[`0.7`, `0.7.0`, `latest` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/v0.7.0/Dockerfile)
 
-[![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:v0.7.0)
+[![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:latest)
 
 Only official [Decred release binaries](https://github.com/decred/decred-release/releases) are used to build this image. These binaries are verified based on the recommended [binaries verification process](https://wiki.decred.org/Verifying_Binaries). (refer to Dockerfile content for details)
 
@@ -96,8 +96,6 @@ $ docker volume create --name dcrticketbuyer-vol
 In this guide, configuration files are located outside of the containers and are in a "conf" directory. These configuration files will be exposed to our containers via a host file mount.
 
 ```console
-tree
-.
 `-- conf
     |-- dcrctl.conf
     |-- dcrd.conf
@@ -108,7 +106,7 @@ tree
 ## Decred daemon container configuration (dcrd)
 
 This chapter describe how to configure and start a Decred daemon container.
-The Decred daemon container automatically connects to the Decred P2P network. It then synchronise to the latest blockchain head block.
+The Decred daemon container automatically connects to the Decred P2P network and then synchronise to the latest blockchain head block.
 Later in this guide we will connect a wallet container to the daemon container.
 
 
@@ -131,7 +129,6 @@ rpcpass=whatever_password_you_want
 ```
 
 Adjust this configuration file to your needs, to view all options available, refer to the sample configuration of the [Decred daemon](https://github.com/decred/dcrd/blob/master/sample-dcrd.conf)
-Note: to setup a full node configuration you will need in addition to set the externalip option.
 
 Save this configuration in the file dcrd.conf (in conf directory).
 
@@ -174,7 +171,7 @@ docker stop dcrd
 docker start dcrd
 ```
 
-### Dcrctl console for Decred daemon container
+### Dcrctl console for daemon container
 
 The console can be connected on dcrd to get information about the blockchain.
 
@@ -230,7 +227,7 @@ rpclisten=0.0.0.0:9110
 ; -------------------------------------------------------
 
 ; The server and port used for dcrd websocket connections.
-rpcconnect=dcrd:9108
+rpcconnect=dcrd:9109
 
 ; File containing root certificates to authenticate a TLS connections with dcrd
 cafile=~/.dcrd/rpc.cert
@@ -281,7 +278,7 @@ The wallet has been created successfully.
 The wallet container named 'dcrwallet' uses the wallet volume, the daemon volume (in read-only) and the dcrwallet.conf configuration file previously created.
 
 This container is launched in interactive mode because the Decred wallet ask to input the wallet passphrase in order to unlock it at the first run.
-In following command, the automatic voting on tickets is enabled, remove it if needed.
+The automatic voting on tickets is also enabled, remove it if needed.
 
 ```console
 $ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet --enablevoting
@@ -326,7 +323,7 @@ docker stop dcrwallet
 docker start dcrwallet
 ```
 
-### Dcrctl console for Decred wallet container
+### Dcrctl console for wallet container
 
 The console can be connected on the dcrwallet to do wallet related operations.
 For instance unlocking the wallet or creating new transactions.
