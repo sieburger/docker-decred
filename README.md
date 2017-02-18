@@ -28,7 +28,7 @@ contains all binaries in decred releases:
 
 #### Releases:
 
--	[`0.7`, `0.7.0`, `latest` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/v0.7.0/Dockerfile)
+-	[`0.7`, `0.7.0`, `latest` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.7.0/Dockerfile)
 
 [![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:latest)
 
@@ -278,10 +278,10 @@ The wallet has been created successfully.
 The wallet container named 'dcrwallet' uses the wallet volume, the daemon volume (in read-only) and the dcrwallet.conf configuration file previously created.
 
 This container is launched in interactive mode because the Decred wallet ask to input the wallet passphrase in order to unlock it at the first run.
-The automatic voting on tickets is also enabled, remove it if needed.
+Automatic voting on tickets option and highfees option are also enabled, remove them if needed.
 
 ```console
-$ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet --enablevoting
+$ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet --enablevoting --allowhighfees
 
 16:23:52 2017-01-01 [INF] DCRW: Version 0.7.0-beta
 16:23:52 2017-01-01 [INF] DCRW: Generating TLS certificates...
