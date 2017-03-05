@@ -2,10 +2,10 @@ FROM ubuntu:xenial
 MAINTAINER jpbriquet
 
 # Build command
-# docker build -t jpbriquet/decred:v0.7.0 .
+# docker build -t jpbriquet/decred:v0.8.2 .
 
 # Decred general info
-ENV DECRED_VERSION v0.7.0
+ENV DECRED_VERSION v0.8.2
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
@@ -14,7 +14,6 @@ ENV DECRED_HOME /home/decred
 ENV DCRD_HOME $DECRED_HOME/.dcrd
 ENV DCRCTL_HOME $DECRED_HOME/.dcrctl
 ENV DCRWALLET_HOME $DECRED_HOME/.dcrwallet
-ENV DCRTICKETBUYER_HOME $DECRED_HOME/.dcrticketbuyer
 
 # Install Decred distribution
 RUN \
@@ -60,6 +59,6 @@ ENV PATH $PATH:$DECRED_INSTALL/bin
 USER $DECRED_USER
 
 # Working directories
-RUN mkdir $DCRD_HOME $DCRCTL_HOME $DCRWALLET_HOME $DCRTICKETBUYER_HOME \
+RUN mkdir $DCRD_HOME $DCRCTL_HOME $DCRWALLET_HOME \
     && chmod -R 700 $DECRED_HOME
 WORKDIR $DECRED_HOME

@@ -2,7 +2,7 @@ This is the the [Docker image](https://hub.docker.com/r/jpbriquet/decred/) for [
 
 # What is Decred?
 
-<img src="https://raw.githubusercontent.com/decred/decredweb/master/content/images/logo.png" alt="Logo" width="200px;"/>
+<img src="https://raw.githubusercontent.com/decred/dcrweb/master/content/images/256.png" alt="Logo" width="200px;"/>
 
 Decred is an open and progressive cryptocurrency with a system of community-based governance integrated into its blockchain. The fusion of technology, community, and governance the Decred way means development is self-funding and remains sustainable.
 
@@ -21,14 +21,14 @@ contains all binaries in decred releases:
 - [Decred Daemon (chainserver) / dcrd](https://github.com/decred/dcrd)
 - [Decred Wallet / dcrwallet](https://github.com/decred/dcrwallet)
 - [Decred Controller (rpc client) / dcrctl](https://github.com/decred/dcrd/tree/master/cmd/dcrctl)
-- [Decred Ticket Buyer / dcrticketbuyer](https://github.com/decred/dcrticketbuyer)
 
 
 # Supported tags and respective `Dockerfile` links
 
 #### Releases:
 
--	[`0.7`, `0.7.0`, `latest` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.7.0/Dockerfile)
+-	[`0.8.2`, `latest` (*0.8.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.8.2/Dockerfile)
+-	[`0.7.0` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.7.0/Dockerfile)
 
 [![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:latest)
 
@@ -86,14 +86,9 @@ $ docker volume create --name dcrd-vol
 $ docker volume create --name dcrwallet-vol
 ```
 
-#### Create a volume for the Decred ticker buyer container:
-```console
-$ docker volume create --name dcrticketbuyer-vol
-```
-
 ### Configuration files
 
-In this guide, configuration files are located outside of the containers and are in a "conf" directory. These configuration files will be exposed to our containers via a host file mount.
+In this guide, configuration files are located outside of the containers and are in a "conf" directory. These configuration files will be available to our containers via a host file mount.
 
 ```console
 `-- conf
@@ -106,7 +101,7 @@ In this guide, configuration files are located outside of the containers and are
 ## Decred daemon container configuration (dcrd)
 
 This chapter describe how to configure and start a Decred daemon container.
-The Decred daemon container automatically connects to the Decred P2P network and then synchronise to the latest blockchain head block.
+The Decred daemon container automatically connects to the Decred P2P network and then synchronize to the latest blockchain head block.
 Later in this guide we will connect a wallet container to the daemon container.
 
 
@@ -141,12 +136,12 @@ The daemon container will use the data-volume  and the dcrd.conf configuration f
 $ docker run -d --name dcrd --net=decrednet -h dcrd -v dcrd-vol:/home/decred/.dcrd -v $PWD/conf/dcrd.conf:/home/decred/.dcrd/dcrd.conf jpbriquet/decred:latest dcrd
 ```
 
-Once launched Decred daemon will read local blockchain data and synchronise with the p2p network, it may take a while depending of the connection speed.
-Docker logs can be use to check what the container is doing.
+Once launched Decred daemon will read local blockchain data and then will synchronize with the p2p network. This step may take a while depending of the network connection speed.
+Use docker logs to check what the container is doing.
 
 ```console
 docker logs dcrd
-15:39:18 2016-12-31 [INF] DCRD: Version 0.7.0-beta
+15:39:18 2016-12-31 [INF] DCRD: Version 0.X.Y-beta
 15:39:18 2016-12-31 [INF] DCRD: Home dir: /home/decred/.dcrd
 15:39:18 2016-12-31 [INF] DCRD: Loading block database from '/home/decred/.dcrd/data/mainnet/blocks_ffldb'
 15:39:18 2016-12-31 [INF] DCRD: Block database loaded
@@ -277,13 +272,14 @@ The wallet has been created successfully.
 
 The wallet container named 'dcrwallet' uses the wallet volume, the daemon volume (in read-only) and the dcrwallet.conf configuration file previously created.
 
-This container is launched in interactive mode because the Decred wallet ask to input the wallet passphrase in order to unlock it at the first run.
-Automatic voting on tickets option and highfees option are also enabled, remove them if needed.
+This container is launched in interactive mode because the Decred wallet needs at first launch to know the wallet passphrase and you have to type it in the console.
+
 
 ```console
-$ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet --enablevoting --allowhighfees
+$ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet
 
-16:23:52 2017-01-01 [INF] DCRW: Version 0.7.0-beta
+
+16:23:52 2017-01-01 [INF] DCRW: Version 0.X.Y-beta
 16:23:52 2017-01-01 [INF] DCRW: Generating TLS certificates...
 16:23:53 2017-01-01 [INF] DCRW: Done generating TLS certificates
 16:23:53 2017-01-01 [INF] DCRW: Attempting RPC client connection to dcrd:9109
@@ -306,7 +302,28 @@ Enter private passphrase:
 ...
 ```
 
-Wait for the end of the synchronisation, and then hit CTRL+C.
+Wait for the end of the synchronization, and then hit CTRL+C.
+
+#### Proof-of-stake mining and ticket buy ####
+
+If you intend to do POS mining with the wallet (buying tickets and/or voting on tickets). You will need several additional options when launching the container.
+
+##### Vote on tickets automatically
+Use option --enablevoting
+
+Add this option when you start the container
+
+Example to start the wallet with automatic voting:
+```console
+$ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet --enablevoting
+```
+
+##### Buy tickets automatically
+Consult the dcrwallet documentation and choose options related to the ticket buyer.
+These options starts with "--ticketbuyer." (e.g. --ticketbuyer.maxpriceabsolute=60, ...).
+
+Add these options when you start the container.
+
 
 
 ### Stop/Start container
@@ -355,70 +372,6 @@ Enter q for [q]uit.
 
 ```
 
-## Decred ticket buyer container configuration (dcrticketbuyer)
-
-The Decred ticket buyer bot purchases automatically tickets based on a user defined set of rules and configuration.
-It connects on the daemon and the wallet to get blockchain and mempool information and use that to make decisions about buying tickets.
-
-### Prepare configuration file
-
-
-```console
-#########################################
-### Basic Connectivity and Monitoring ###
-#########################################
-## Login information for the daemon and wallet RPCs.
-dcrduser=user
-dcrdpass=pass
-dcrdserv=dcrd:9109
-dcrdcert=/home/decred/.dcrd/rpc.cert
-dcrwuser=user
-dcrwpass=pass
-dcrwserv=dcrwallet:9110
-dcrwcert=/home/decred/.dcrwallet/rpc.cert
-
-...
-
-```
-
-To view all options available, refer to the sample configuration of the [Decred ticket buyer](https://github.com/decred/dcrticketbuyer/blob/master/ticketbuyer-example.conf)
-Adjust the configuration to your needs.
-
-Save this configuration file as ticketbuyer.conf in the conf directory.
-
-### Create container
-
-The ticket buyer container needs both the daemon and the wallet volume in read-only mode to be able to communicate with them. The ticketbuyer.conf configuration file created previously is also needed.
-
-```console
-$ docker run -d --name dcrticketbuyer --net=decrednet -h dcrticketbuyer -v dcrd-vol:/home/decred/.dcrd
--v dcrwallet-vol:/home/decred/.dcrwallet -v dcrticketbuyer-vol:/home/decred/.dcrticketbuyer -v $PWD/conf/ticketbuyer.conf:/home/decred/.dcrticketbuyer/ticketbuyer.conf jpbriquet/decred:latest dcrticketbuyer
-```
-
-Once launched the ticket buyer bot will connect on dcrd and dcrwallet, and then may try to purchase tickets depending of the configuration.
-
-```console
-docker logs dcrticketbuyer
-18:46:14 2017-01-01 [INF] RPCC: Established connection to RPC server dcrd:9109
-18:46:14 2017-01-01 [INF] RPCC: Established connection to RPC server dcrwallet:9110
-18:46:14 2017-01-01 [INF] TKBY: Daemon and wallet successfully connected, beginning to purchase tickets
-...
-```
-
-### Stop/Start container
-
-When the container has been created, standard Docker commands can be used.
-
-#### Stop container
-```console
-docker stop dcrticketbuyer
-```
-
-#### Start container
-```console
-docker start dcrticketbuyer
-```
-
 
 # License
 
@@ -426,7 +379,7 @@ View [license information](https://github.com/decred/dcrwallet/blob/master/LICEN
 
 # Supported Docker versions
 
-This image is officially supported on Docker version 1.11.x and above.
+This image is officially supported on Docker version 1.13.x and above.
 
 Support for older versions (down to 1.6) is provided on a best-effort basis.
 
