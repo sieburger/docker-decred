@@ -54,7 +54,6 @@ $ docker run -it jpbriquet/decred:latest dcrd
 
 This guide describes how to configure a Decred daemon (dcrd) container. The next step will be to connect a Decred wallet (dcrwallet) container on the daemon.
 Both containers will be manageable with the Decred controller tool (dcrctl), which will give a way to unlock the Decred wallet, or get Decred network information from the Decred daemon.
-The last step explain how to configure the automatic Decred ticket buyer (dcrticketbuyer) container.
 
 As it is an advanced configuration, it is strongly recommended to be familiar with [Docker](https://www.docker.com) and with [Decred documentation](https://wiki.decred.org)
 
@@ -306,7 +305,7 @@ Wait for the end of the synchronization, and then hit CTRL+C.
 
 #### Proof-of-stake mining and ticket buy ####
 
-If you intend to do POS mining with the wallet (buying tickets and/or voting on tickets). You will need several additional options when launching the container.
+You will need several additional options when launching the container if you would like to do POS mining with the wallet (buying tickets and/or voting on tickets). 
 
 ##### Vote on tickets automatically
 Use option --enablevoting
