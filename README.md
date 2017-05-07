@@ -27,7 +27,8 @@ contains all binaries in decred releases:
 
 #### Releases:
 
--	[`0.8.2`, `latest` (*0.8.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.8.2/Dockerfile)
+-	[`1.0.1, latest` (*1.0.1/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.1/Dockerfile)
+-	[`0.8.2` (*0.8.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.8.2/Dockerfile)
 -	[`0.7.0` (*0.7.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.7.0/Dockerfile)
 
 [![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:latest)
@@ -94,7 +95,6 @@ In this guide, configuration files are located outside of the containers and are
     |-- dcrctl.conf
     |-- dcrd.conf
     |-- dcrwallet.conf
-    `-- ticketbuyer.conf
 ```
 
 ## Decred daemon container configuration (dcrd)
@@ -140,7 +140,7 @@ Use docker logs to check what the container is doing.
 
 ```console
 docker logs dcrd
-15:39:18 2016-12-31 [INF] DCRD: Version 0.X.Y-beta
+15:39:18 2016-12-31 [INF] DCRD: Version 0.X.Y+release (Go version goA.B.C)
 15:39:18 2016-12-31 [INF] DCRD: Home dir: /home/decred/.dcrd
 15:39:18 2016-12-31 [INF] DCRD: Loading block database from '/home/decred/.dcrd/data/mainnet/blocks_ffldb'
 15:39:18 2016-12-31 [INF] DCRD: Block database loaded
@@ -170,15 +170,10 @@ docker start dcrd
 The console can be connected on dcrd to get information about the blockchain.
 
 ```console
-docker exec -it dcrd dcrctl --terminal
+docker exec -it dcrd dcrctl getinfo
 
-Starting terminal mode.
-Enter h for [h]elp.
-Enter l for [l]ist of commands.
-Enter q for [q]uit.
-> getinfo
 {
-  "version": 70000,
+  "version": 1000100,
   "protocolversion": 2,
   "blocks": 94999,
   "timeoffset": 0,
@@ -278,7 +273,7 @@ This container is launched in interactive mode because the Decred wallet needs a
 $ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrwallet.conf:/home/decred/.dcrwallet/dcrwallet.conf -v $PWD/conf/dcrctl.conf:/home/decred/.dcrctl/dcrctl.conf -v dcrwallet-vol:/home/decred/.dcrwallet -v dcrd-vol:/home/decred/.dcrd:ro jpbriquet/decred:latest dcrwallet
 
 
-16:23:52 2017-01-01 [INF] DCRW: Version 0.X.Y-beta
+16:23:52 2017-01-01 [INF] DCRW: Version 0.X.Y+release (Go version goA.B.C)
 16:23:52 2017-01-01 [INF] DCRW: Generating TLS certificates...
 16:23:53 2017-01-01 [INF] DCRW: Done generating TLS certificates
 16:23:53 2017-01-01 [INF] DCRW: Attempting RPC client connection to dcrd:9109
@@ -305,12 +300,10 @@ Wait for the end of the synchronization, and then hit CTRL+C.
 
 #### Proof-of-stake mining and ticket buy ####
 
-You will need several additional options when launching the container if you would like to do POS mining with the wallet (buying tickets and/or voting on tickets). 
+You will need several additional options when launching the container, e.g. POS mining with the wallet (buying tickets and/or voting on tickets).
 
 ##### Vote on tickets automatically
-Use option --enablevoting
-
-Add this option when you start the container
+Use option --enablevoting when you start the container
 
 Example to start the wallet with automatic voting:
 ```console
@@ -318,11 +311,11 @@ $ docker run -it --name dcrwallet --net=decrednet -h dcrwallet -v $PWD/conf/dcrw
 ```
 
 ##### Buy tickets automatically
-Consult the dcrwallet documentation and choose options related to the ticket buyer.
-These options starts with "--ticketbuyer." (e.g. --ticketbuyer.maxpriceabsolute=60, ...).
-
+Consult the dcrwallet documentation and choose options related to the automatic ticket buyer.
+Options starts with "--ticketbuyer." (e.g. --ticketbuyer.maxpriceabsolute=60, ...).
 Add these options when you start the container.
 
+Note: It is also possible to add these options in the dcrwallet.conf configuration file.
 
 
 ### Stop/Start container
@@ -344,14 +337,22 @@ docker start dcrwallet
 The console can be connected on the dcrwallet to do wallet related operations.
 For instance unlocking the wallet or creating new transactions.
 
-```console
-docker exec -it dcrwallet dcrctl --terminal --wallet
+#### Unlock wallet for 60 minutes
 
-Starting terminal mode.
-Enter h for [h]elp.
-Enter l for [l]ist of commands.
-Enter q for [q]uit.
-> getstakeinfo
+Wallet has to be unlocked to send DCR tokens, to buy tickets, or to do solo POS mining.
+Adjust the unlock duration as needed. (60 minutes in the example below, set it at 0 for unlimited unlocking)
+
+```console
+docker exec -it dcrwallet bash -c 'promptsecret | dcrctl --wallet walletpassphrase - 60'
+```
+
+#### Get stake Information
+
+Get current stake information, difficulty (cost of the ticket), number of owned tickets, number of voted tickets...
+
+```console
+docker exec -it dcrwallet dcrctl --wallet getstakeinfo
+
 {
   "blockheight": 95000,
   "poolsize": 41672,
@@ -370,6 +371,53 @@ Enter q for [q]uit.
 }
 
 ```
+
+#### Display vote choices
+
+Display current proposals "agendaid", and for each the chosen choice "choiceid" (abstain, yes or no).
+
+```console
+docker exec -it dcrwallet dcrctl --wallet getvotechoices
+
+{
+  "version": 4,
+  "choices": [
+    {
+      "agendaid": "sdiffalgorithm",
+      "agendadescription": "Change stake difficulty algorithm as defined in DCP0001",
+      "choiceid": "abstain",
+      "choicedescription": "abstain voting for change"
+    },
+    {
+      "agendaid": "lnsupport",
+      "agendadescription": "Request developers begin work on Lightning Network (LN) integration",
+      "choiceid": "abstain",
+      "choicedescription": "abstain from voting"
+    }
+  ]
+}
+```
+
+#### Set vote choice
+
+Use the previous display vote choices command, and for each "agendaid" use following command to set your vote choice.
+Example below is for the agendaid "sdiffalgorithm", replace it as needed.
+
+* Vote yes:
+```console
+docker exec -it dcrwallet dcrctl --wallet setvotechoice sdiffalgorithm yes
+```
+* Vote no:
+```console
+docker exec -it dcrwallet dcrctl --wallet setvotechoice sdiffalgorithm no
+```
+
+* Abstain:
+```console
+docker exec -it dcrwallet dcrctl --wallet setvotechoice sdiffalgorithm abstain
+```
+
+Finally, display again your vote choices to check if "choiceid" field is correct.
 
 
 # License

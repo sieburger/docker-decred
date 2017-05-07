@@ -2,10 +2,10 @@ FROM ubuntu:xenial
 MAINTAINER jpbriquet
 
 # Build command
-# docker build -t jpbriquet/decred:v0.8.2 .
+# docker build -t jpbriquet/decred:v1.0.1 .
 
 # Decred general info
-ENV DECRED_VERSION v0.8.2
+ENV DECRED_VERSION v1.0.1
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
