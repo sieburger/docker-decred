@@ -419,6 +419,35 @@ docker exec -it dcrwallet dcrctl --wallet setvotechoice sdiffalgorithm abstain
 
 Finally, display again your vote choices to check if "choiceid" field is correct.
 
+# Upgrading from previous image version
+
+* Get new image version
+```console
+docker pull jpbriquet/decred:latest
+```
+
+* Stop containers
+```console
+docker stop dcrwallet
+docker stop dcrd
+```
+
+* Rename previous containers for backup
+
+```console
+docker rename dcrd dcrd_v0.8
+docker rename dcrwallet dcrwallet_v0.8
+```
+
+* Start new dcrd an dcrwallet
+
+Start containers, adjust command line as needed.
+
+```console
+docker run ... jpbriquet/dcrd:latest ...
+docker run ... jpbriquet/dcrwallet:latest ...
+```
+
 
 # License
 
