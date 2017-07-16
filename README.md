@@ -27,6 +27,7 @@ contains all binaries in decred releases:
 
 #### Releases:
 
+-	[`1.0.5, latest` (*1.0.5/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.5/Dockerfile)
 -	[`1.0.3, latest` (*1.0.3/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.3/Dockerfile)
 -	[`1.0.1` (*1.0.1/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.1/Dockerfile)
 -	[`0.8.2` (*0.8.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/0.8.2/Dockerfile)
