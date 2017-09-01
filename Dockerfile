@@ -1,11 +1,13 @@
 FROM ubuntu:xenial
-MAINTAINER jpbriquet
+LABEL description="Docker Decred image"
+LABEL version="1.0.7"
+LABEL maintainer "jpbriquet"
 
 # Build command
-# docker build -t jpbriquet/decred:v1.0.5 .
+# docker build -t jpbriquet/decred:v1.0.7 .
 
 # Decred general info
-ENV DECRED_VERSION v1.0.5
+ENV DECRED_VERSION v1.0.7
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
