@@ -2,7 +2,7 @@ This is the the [Docker image](https://hub.docker.com/r/jpbriquet/decred/) for [
 
 # What is Decred?
 
-<img src="https://raw.githubusercontent.com/decred/dcrweb/master/content/images/256.png" alt="Logo" width="200px;"/>
+<img src="https://raw.githubusercontent.com/decred/dcrweb/master/www-root/content/images/256.png" alt="Logo" width="200px;"/>
 
 Decred is an open and progressive cryptocurrency with a system of community-based governance integrated into its blockchain. The fusion of technology, community, and governance the Decred way means development is self-funding and remains sustainable.
 
@@ -27,8 +27,9 @@ contains all binaries in decred releases:
 
 #### Releases:
 
--	[`1.1.0, latest` (*1.1.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.0/Dockerfile)
--	[`1.0.8, (*1.0.8/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.8/Dockerfile)
+-	[`1.1.2, latest` (*1.1.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.2/Dockerfile)
+-	[`1.1.0, (*1.1.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.0/Dockerfile)
+-	[`1.0.8`, (*1.0.8/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.8/Dockerfile)
 -	[`1.0.7` (*1.0.7/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.7/Dockerfile)
 -	[`1.0.5` (*1.0.5/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.5/Dockerfile)
 -	[`1.0.3` (*1.0.3/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.3/Dockerfile)
