@@ -8,7 +8,7 @@ Decred is an open and progressive cryptocurrency with a system of community-base
 
 > Website: [www.decred.org](https://www.decred.org)
 
-> Documentation : [docs.decred.org](https://wiki.decred.org)
+> Documentation : [docs.decred.org](https://docs.decred.org)
 
 > Wiki: [wiki.decred.org](https://wiki.decred.org)
 
@@ -27,7 +27,8 @@ contains all binaries in decred releases:
 
 #### Releases:
 
--	[`1.1.2, latest` (*1.1.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.2/Dockerfile)
+-	[`1.2.0, latest` (*1.2.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.2.0/Dockerfile)
+-	[`1.1.2` (*1.1.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.2/Dockerfile)
 -	[`1.1.0`, (*1.1.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.0/Dockerfile)
 -	[`1.0.8`, (*1.0.8/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.8/Dockerfile)
 -	[`1.0.7` (*1.0.7/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.7/Dockerfile)

@@ -1,13 +1,13 @@
 FROM ubuntu:xenial
 LABEL description="Docker Decred image"
-LABEL version="1.1.2"
+LABEL version="1.2.0"
 LABEL maintainer "jpbriquet"
 
 # Build command
-# docker build -t jpbriquet/decred:v1.1.2 .
+# docker build -t jpbriquet/decred:v1.2.0 .
 
 # Decred general info
-ENV DECRED_VERSION v1.1.2
+ENV DECRED_VERSION v1.2.0
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
@@ -27,7 +27,7 @@ RUN \
     && apt-get update \
     && apt-get -y install $BUILD_DEPS \
     # Register Decred Team PGP key
-    && gpg --keyserver pgp.mit.edu --recv-keys 0x518A031D \
+    && gpg --keyserver pgp.mit.edu --recv-keys 0x6D897EDF518A031D \
     # Get Binaries
     && BASE_URL="https://github.com/decred/decred-binaries/releases/download" \
     && DECRED_ARCHIVE="decred-linux-amd64-$DECRED_VERSION.tar.gz" \
