@@ -1,13 +1,13 @@
-FROM ubuntu:xenial
+FROM ubuntu:bionic
 LABEL description="Docker Decred image"
-LABEL version="1.2.0"
+LABEL version="1.3.0"
 LABEL maintainer "jpbriquet"
 
 # Build command
-# docker build -t jpbriquet/decred:v1.2.0 .
+# docker build -t jpbriquet/decred:v1.3.0 .
 
 # Decred general info
-ENV DECRED_VERSION v1.2.0
+ENV DECRED_VERSION v1.3.0
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
@@ -23,7 +23,7 @@ RUN \
     # add our user and group first to make sure their IDs get assigned consistently
     && groupadd -r $DECRED_GROUP && useradd -r -m -g $DECRED_GROUP $DECRED_USER \
     # get packages
-    && BUILD_DEPS="curl" \
+    && BUILD_DEPS="curl gpg" \
     && apt-get update \
     && apt-get -y install $BUILD_DEPS \
     # Register Decred Team PGP key

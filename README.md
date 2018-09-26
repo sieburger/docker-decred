@@ -1,4 +1,4 @@
-This is the the [Docker image](https://hub.docker.com/r/jpbriquet/decred/) for [Decred cryptocurrency releases](https://github.com/decred/decred-release).
+This is the the [Docker image](https://hub.docker.com/r/jpbriquet/decred/) for [Decred cryptocurrency releases](https://github.com/decred/decred-binaries/releases).
 
 # What is Decred?
 
@@ -27,7 +27,8 @@ contains all binaries in decred releases:
 
 #### Releases:
 
--	[`1.2.0, latest` (*1.2.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.2.0/Dockerfile)
+-	[`1.3.0, latest` (*1.3.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.3.0/Dockerfile)
+-	[`1.2.0` (*1.2.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.2.0/Dockerfile)
 -	[`1.1.2` (*1.1.2/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.2/Dockerfile)
 -	[`1.1.0`, (*1.1.0/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.1.0/Dockerfile)
 -	[`1.0.8`, (*1.0.8/Dockerfile*)](https://raw.githubusercontent.com/jpbriquet/docker-decred/1.0.8/Dockerfile)
