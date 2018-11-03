@@ -50,7 +50,7 @@ RUN \
     && chmod -R 755 bin \
     # Cleanup
     && apt-get -y remove $BUILD_DEPS \
-    && apt autoremove \
+    && apt-get -y autoremove --purge \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
