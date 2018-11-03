@@ -10,12 +10,10 @@ Decred is an open and progressive cryptocurrency with a system of community-base
 
 > Documentation : [docs.decred.org](https://docs.decred.org)
 
-> Wiki: [wiki.decred.org](https://wiki.decred.org)
-
 
 # Image Information
 
-This Decred docker image is based on the Ubuntu image 16.04 LTS (Xenial Xerus) and
+This Decred docker image is based on the Ubuntu image 18.04 LTS (Bionic Beaver) and
 contains all binaries in decred releases:
 
 - [Decred Daemon (chainserver) / dcrd](https://github.com/decred/dcrd)
@@ -41,7 +39,7 @@ contains all binaries in decred releases:
 
 [![](https://imagelayers.io/badge/jpbriquet/decred:latest.svg)](https://imagelayers.io/?images=jpbriquet/decred:latest)
 
-Only official [Decred release binaries](https://github.com/decred/decred-release/releases) are used to build this image. These binaries are verified based on the recommended [binaries verification process](https://wiki.decred.org/Verifying_Binaries). (refer to Dockerfile content for details)
+Only official [Decred release binaries](https://github.com/decred/decred-release/releases) are used to build this image. These binaries are verified based on the recommended [binaries verification process](https://docs.decred.org/advanced/verifying-binaries/). (refer to Dockerfile content for details)
 
 
 # How to use this image
@@ -64,7 +62,7 @@ $ docker run -it jpbriquet/decred:latest dcrd
 This guide describes how to configure a Decred daemon (dcrd) container. The next step will be to connect a Decred wallet (dcrwallet) container on the daemon.
 Both containers will be manageable with the Decred controller tool (dcrctl), which will give a way to unlock the Decred wallet, or get Decred network information from the Decred daemon.
 
-As it is an advanced configuration, it is strongly recommended to be familiar with [Docker](https://www.docker.com) and with [Decred documentation](https://wiki.decred.org)
+As it is an advanced configuration, it is strongly recommended to be familiar with [Docker](https://www.docker.com) and with [Decred documentation](https://docs.decred.org/)
 
 ## Prerequisites
 

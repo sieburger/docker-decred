@@ -37,11 +37,9 @@ RUN \
     && curl -LO $BASE_URL/$DECRED_VERSION/$DECRED_ARCHIVE \
     && curl -LO $BASE_URL/$DECRED_VERSION/$MANIFEST \
     && curl -LO $BASE_URL/$DECRED_VERSION/$MANIFEST_SIGN \
-    \
     # Verify authenticity - Check GPG sign + Package Hash
     && gpg --verify /tmp/$MANIFEST_SIGN \
     && grep "$DECRED_ARCHIVE" /tmp/$MANIFEST | sha256sum -c - \
-    \
     # Install
     && mkdir -p $DECRED_INSTALL \
     && cd $DECRED_INSTALL \
@@ -50,9 +48,9 @@ RUN \
     # Set correct rights on executables
     && chown -R root.root bin \
     && chmod -R 755 bin \
-
     # Cleanup
     && apt-get -y remove $BUILD_DEPS \
+    && apt autoremove \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
