@@ -1,13 +1,13 @@
-FROM ubuntu:bionic
+FROM raspbian:scratch
 LABEL description="Docker Decred image"
-LABEL version="1.4.0"
-LABEL maintainer "jpbriquet"
+LABEL version="1.5.0"
+LABEL maintainer "sieburger"
 
 # Build command
-# docker build -t jpbriquet/decred:v1.4.0 .
+# docker build -t sieburger/decred:v1.5.0 .
 
 # Decred general info
-ENV DECRED_VERSION v1.4.0
+ENV DECRED_VERSION v1.5.0
 ENV DECRED_USER decred
 ENV DECRED_GROUP decred
 ENV DECRED_INSTALL /usr/local/decred
@@ -30,7 +30,7 @@ RUN \
     && gpg --keyserver keyserver.ubuntu.com --recv-keys 0x6D897EDF518A031D \
     # Get Binaries
     && BASE_URL="https://github.com/decred/decred-binaries/releases/download" \
-    && DECRED_ARCHIVE="decred-linux-amd64-$DECRED_VERSION.tar.gz" \
+    && DECRED_ARCHIVE="decred-linux-arm64-$DECRED_VERSION.tar.gz" \
     && MANIFEST_SIGN="manifest-$DECRED_VERSION.txt.asc" \
     && MANIFEST="manifest-$DECRED_VERSION.txt" \
     && cd /tmp \
@@ -44,7 +44,7 @@ RUN \
     && mkdir -p $DECRED_INSTALL \
     && cd $DECRED_INSTALL \
     && tar xzf /tmp/$DECRED_ARCHIVE \
-    && mv decred-linux-amd64-$DECRED_VERSION bin \
+    && mv decred-linux-arm64-$DECRED_VERSION bin \
     # Set correct rights on executables
     && chown -R root.root bin \
     && chmod -R 755 bin \
